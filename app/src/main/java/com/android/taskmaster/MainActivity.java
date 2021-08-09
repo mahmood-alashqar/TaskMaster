@@ -1,17 +1,29 @@
 package com.android.taskmaster;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.text.BreakIterator;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TITLE = "title";
+    @Override
+    protected void onResume (){
+        super.onResume();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = sharedPreferences.getString("Username","go set your info in setting !!");
+        TextView usernameView = findViewById(R.id.Username_main);
+        usernameView.setText(username);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
             Intent titleIntent = new Intent(MainActivity.this,TaskDetailPage.class);
             titleIntent.putExtra(TITLE,title_c);
             startActivity(titleIntent);
+        });
+        ImageButton menuBtn = findViewById(R.id.imageButton);
+        menuBtn.setOnClickListener(v -> {
+            Intent menuIntent = new Intent(MainActivity.this,SettingPage.class);
+            startActivity(menuIntent);
         });
 
 
